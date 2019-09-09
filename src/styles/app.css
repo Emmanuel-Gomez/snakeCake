@@ -1,0 +1,20 @@
+body {
+	background-color:#99cc00;
+}
+
+.Root {
+	
+	text-align: center;
+}
+
+.CanvasWrapper {
+	padding: 10px 10px 70px 10px;
+	background-color: white;
+	width: 410px;
+	height: 410px;
+	margin: auto;
+}
+
+.Message {
+	font-style: italic
+}
