@@ -1,6 +1,7 @@
 body {
-	background-color: #77ab59;
+	background-color :#8a00ff;
 	font-family: 'Press Start 2P', cursive;
+	color: #f500ff;
 }
 
 .Root {
@@ -17,5 +18,8 @@ body {
 }
 
 .Message {
-	
+	font-size: 26px;
+	background: -webkit-linear-gradient(#f500ff, #6700ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
