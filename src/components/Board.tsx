@@ -105,8 +105,12 @@ export class Board extends React.Component<IBoard> {
 			this.cakePosY = Math.floor(Math.random() * boardSize);
 		}
 
-		this.context.fillStyle = cakeColor;
-		this.context.fillRect(this.cakePosX * pixelSize, this.cakePosY * pixelSize, snakeSize, snakeSize);
+		// this.context.fillStyle = cakeColor;
+		// this.context.fillRect(this.cakePosX * pixelSize, this.cakePosY * pixelSize, snakeSize, snakeSize);
+
+		this.context.textBaseline = "top"
+		this.context.font = "20px serif";
+		this.context.strokeText(`🎂`, this.cakePosX * pixelSize, this.cakePosY * pixelSize);
 
 		this.obstacles();
 	}
@@ -155,13 +159,15 @@ export class Board extends React.Component<IBoard> {
 		return(
 			<div className="Root">
 
-				<h2>Score:{this.props.controller.score}</h2>
-				
+				<div className="ScoreTable">
+					<h2>Score:{this.props.controller.score}</h2>
+				</div>
+
 				<div className="CanvasWrapper">
 					<canvas
-						width="400"
-						height="400"
-						tabIndex={1}
+						width="800"
+						height="800"
+						tabIndex={0}
 						ref={this.myRef}
 						onKeyDown={ evt => this.props.controller.keyPush(evt)}
 					/>

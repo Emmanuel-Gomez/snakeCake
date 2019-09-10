@@ -4,17 +4,22 @@ body {
 	color: #f500ff;
 }
 
-.Root {
-	text-align: center;
+.ScoreTable {
+	display: inline-block;
 }
 
 .CanvasWrapper {
 	padding: 15px 15px 70px 15px;
 	background-color: white;
-	width: 400px;
-	height: 400px;
-	margin: auto;
+	width: 800px;
+	height: 800px;
 	box-shadow: 0 0.2rem 1.2rem rgba(0,0,0,0.2);
+	text-align: center;
+	display: inline-block;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .Message {

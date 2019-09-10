@@ -22,12 +22,7 @@ export interface IBoardController {
 export class controller implements IBoardController {
 
 	public readonly boardSize: number = 40;
-	public readonly pixelSize: number = 10;
-
-	public snakeHeadPosY: number = 20;
-	public snakeHeadPosX: number = 20;
-	public cakePosY: number = Math.floor(Math.random() * this.boardSize);
-	public cakePosX: number = Math.floor(Math.random() * this.boardSize);
+	public readonly pixelSize: number = 20;
 
 	@observable down = 0;
 	@observable right = 0;
