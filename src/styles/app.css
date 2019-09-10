@@ -1,20 +1,21 @@
 body {
-	background-color:#99cc00;
+	background-color: #77ab59;
+	font-family: 'Press Start 2P', cursive;
 }
 
 .Root {
-	
 	text-align: center;
 }
 
 .CanvasWrapper {
-	padding: 10px 10px 70px 10px;
+	padding: 15px 15px 70px 15px;
 	background-color: white;
-	width: 410px;
-	height: 410px;
+	width: 400px;
+	height: 400px;
 	margin: auto;
+	box-shadow: 0 0.2rem 1.2rem rgba(0,0,0,0.2);
 }
 
 .Message {
-	font-style: italic
+	
 }
