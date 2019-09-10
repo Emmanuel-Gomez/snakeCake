@@ -15,6 +15,7 @@ export class Board extends React.Component<IBoard> {
 
 	public canvas: HTMLCanvasElement;
 	public context: CanvasRenderingContext2D;
+	public start: number = 0;
 
 	public snakeHeadPosY: number = 20;
 	public snakeHeadPosX: number = 20;
@@ -27,16 +28,22 @@ export class Board extends React.Component<IBoard> {
 		super(props);
 	}
 
-	componentDidMount() {
+	public componentDidMount() {
 		this.canvas = this.myRef.current;
 		this.context = this.canvas.getContext("2d");
 
-		setInterval(this.game.bind(this),1000/15);
+		setInterval(this.game.bind(this), 1000/15);
 	}
 
-	componentDidUpdate() {
+	public componentDidUpdate() {
 		this.canvas = this.myRef.current;
 		this.context = this.canvas.getContext("2d");
+	}
+
+	public reset(): void {
+		this.props.controller.reset();
+		this.snakeHeadPosX = 20;
+		this.snakeHeadPosY = 20;
 	}
 
 	public game(): void {
@@ -46,10 +53,11 @@ export class Board extends React.Component<IBoard> {
 			down,
 			trail,
 			boardSize,
-			pixelSize
+			pixelSize,
+			uTurn
 		} = this.props.controller;
 
-		const snakeSize = pixelSize-2;
+		const snakeSize = pixelSize - 2;
 
 		this.snakeHeadPosX += right;
 		this.snakeHeadPosY += down;
@@ -71,17 +79,15 @@ export class Board extends React.Component<IBoard> {
 		}
 
 		this.context.fillStyle = "black";
-		this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
-
-		
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
 		this.context.fillStyle = snakeColor;
-		for(var i=0;i < trail.length;i++) {
+		for(let i=0; i < trail.length; i++) {
 			this.context.fillRect(trail[i].x * pixelSize, trail[i].y * pixelSize, snakeSize, snakeSize);
 			
 			//If the snake steps on its own tail
-			if(trail[i].x == this.snakeHeadPosX && trail[i].y == this.snakeHeadPosY) {
-				this.props.controller.tail = 5;
+			if(trail[i].x == this.snakeHeadPosX && trail[i].y == this.snakeHeadPosY && !uTurn) {
+				this.reset();
 			}
 		}
 
@@ -102,10 +108,46 @@ export class Board extends React.Component<IBoard> {
 		this.context.fillStyle = cakeColor;
 		this.context.fillRect(this.cakePosX * pixelSize, this.cakePosY * pixelSize, snakeSize, snakeSize);
 
+		this.obstacles();
+	}
 
-		this.context.fillStyle =  wallColor;
-		this.context.fillRect(200, 300, snakeSize, snakeSize);
+	public obstacles(): void {
 
+		const { pixelSize, boardSize } = this.props.controller;
+
+		this.start += 1;
+
+		if(this.start < 0) {
+			this.start = boardSize-1;
+		}
+
+		if(this.start > boardSize-1) {
+			this.start = 0;
+		}
+
+		if(this.start < 0) {
+			this.start = boardSize-1;
+		}
+
+		if(this.start > boardSize-1) {
+			this.start = 0;
+		}
+
+		const snakeSize = pixelSize-2;
+
+		this.context.fillStyle = wallColor;
+		for(let i = this.start; i < 10 + this.start; i++) {
+			
+			this.context.fillRect(10 * pixelSize, ( 0 + i) * pixelSize, snakeSize, snakeSize);
+			this.context.fillRect(30 * pixelSize, (0 + i) * pixelSize, snakeSize, snakeSize);
+
+			if(this.snakeHeadPosX === 10 && this.snakeHeadPosY === 0 + i) {
+				this.reset();
+			}
+			else if(this.snakeHeadPosX === 30 && this.snakeHeadPosY === 0 + i) {
+				this.reset();
+			}
+		}
 	}
 
 	render() {
@@ -119,7 +161,7 @@ export class Board extends React.Component<IBoard> {
 					<canvas
 						width="400"
 						height="400"
-						tabIndex={0}
+						tabIndex={1}
 						ref={this.myRef}
 						onKeyDown={ evt => this.props.controller.keyPush(evt)}
 					/>

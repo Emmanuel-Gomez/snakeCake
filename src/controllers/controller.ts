@@ -13,8 +13,10 @@ export interface IBoardController {
 	pixelSize: number;
 	trail: ICoordinates[]
 	score: number;
+	uTurn: boolean
 
 	keyPush: ( evt: React.KeyboardEvent<HTMLCanvasElement> ) => void
+	reset: () => void
 }
 
 export class controller implements IBoardController {
@@ -22,10 +24,16 @@ export class controller implements IBoardController {
 	public readonly boardSize: number = 40;
 	public readonly pixelSize: number = 10;
 
+	public snakeHeadPosY: number = 20;
+	public snakeHeadPosX: number = 20;
+	public cakePosY: number = Math.floor(Math.random() * this.boardSize);
+	public cakePosX: number = Math.floor(Math.random() * this.boardSize);
+
 	@observable down = 0;
 	@observable right = 0;
 	@observable tail = 5;
 	@observable trail: ICoordinates[] = [];
+	@observable uTurn = false;
 
 	@computed get score(): number {
 		return this.tail - 5;
@@ -36,25 +44,32 @@ export class controller implements IBoardController {
 
 		switch(evt.keyCode) {
 			case 37:
-				//Left
+				this.uTurn = this.right > 0;
 				this.right=-1;
 				this.down=0;
 				break;
 			case 38:
-				//Up
+				this.uTurn = this.down > 0
 				this.right=0;
 				this.down=-1;
 				break;
 			case 39:
-				//Right
+				this.uTurn = this.right < 0;
 				this.right=1;
 				this.down=0;
 				break;
 			case 40:
-				//Down
+				this.uTurn = this.down < 0;
 				this.right=0;
 				this.down=1;
 				break;
 		}
+	}
+
+	@action reset(): void {
+		this.down = 0;
+		this.right = 0;
+		this.tail = 5;
+		this.uTurn = false;
 	}
 }
